@@ -1,6 +1,6 @@
 <template>
   <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">D-sak</a>
+    <a class="navbar-brand" href="#">d:sak Dashboard</a>
     <button
       class="navbar-toggler"
       type="button"

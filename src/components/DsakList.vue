@@ -1,10 +1,14 @@
 <template>
   <div class="green">
     <h2>{{header}}</h2>
-    <!-- <dsak v-for="sak in saker" :dsak="sak" class="class col mt-4">></dsak> -->
     <div>
-      <dsak v-for="sak in saker" :dsak="sak"></dsak>
+      <dsak v-for="sak in saker" :key="sak.id" :dsak="sak"></dsak>
     </div>
+    <!-- <div v-for="grouped in groupedDsaker" class="row">
+      <div v-for="sak in grouped" :key="sak.id" class="col-lg-4">
+        <dsak :dsak="sak"/>
+      </div>
+    </div> -->
   </div>
 </template>
 
@@ -15,6 +19,13 @@ export default {
   name: "DsakList",
   components: {
     Dsak
+  },
+  computed: {
+    groupedDsaker() {
+      return _.chunk(this.saker, 3);
+      // returns a nested array:
+      // [[article, article, article], [article, article, article], ...]
+    }
   },
   data: function() {
     return {
@@ -283,8 +294,6 @@ export default {
 <style scoped>
 h2 {
   margin: auto;
-  color: white;
-  background-color: black;
 }
 
 .blue {
