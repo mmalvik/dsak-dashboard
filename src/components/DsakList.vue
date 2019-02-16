@@ -1,14 +1,26 @@
 <template>
-  <div class="green">
-    <h2>{{header}}</h2>
+  <div>
     <div>
-      <dsak v-for="sak in saker" :key="sak.id" :dsak="sak"></dsak>
+      <table class="table table-bordered table-hover">
+        <thead>
+          <tr>
+            <th scope="col"></th>
+            <th scope="col">Tittel</th>
+            <th scope="col">Prioritet</th>
+            <th scope="col">Status</th>
+            <th scope="col">Kunde</th>
+            <th scope="col">Produkt</th>
+            <th scope="col">Versjon</th>
+          </tr>
+        </thead>
+        <dsak v-for="sak in saker" :key="sak.id" :dsak="sak"></dsak>
+      </table>
     </div>
     <!-- <div v-for="grouped in groupedDsaker" class="row">
       <div v-for="sak in grouped" :key="sak.id" class="col-lg-4">
         <dsak :dsak="sak"/>
       </div>
-    </div> -->
+    </div>-->
   </div>
 </template>
 
@@ -295,12 +307,7 @@ export default {
 h2 {
   margin: auto;
 }
-
-.blue {
-  background-color: lightblue;
-}
-
-.green {
-  background-color: lightgreen;
+table {
+  text-align: left;
 }
 </style>

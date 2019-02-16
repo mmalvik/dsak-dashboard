@@ -1,5 +1,5 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-5">
     <a class="navbar-brand" href="#">d:sak Dashboard</a>
     <button
       class="navbar-toggler"

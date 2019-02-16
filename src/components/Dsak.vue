@@ -1,44 +1,17 @@
 <template>
-  <div class="red">
-    <!-- <h4>{{dsak.title}}</h4>
-    <p>Prioritet: {{dsak.priority}}</p>
-    <p>Status: {{dsak.status}}</p>
-    <p>Kategori: {{dsak.category}}</p>
-    <p>Customer: {{dsak.customer}}</p>
-    <p>Produkt: {{dsak.product}}</p>
-    <p>Versjon: {{dsak.version}}</p>
-    <p>Produkt: {{dsak.product}}</p>-->
-    <!-- <div class="card mt-4">
-  <div class="card-body">
-    <h5 class="card-title">{{dsak.title}}</h5>
-    <p class="card-text">{{dsak.category}}</p>
-    <p class="card-text">{{dsak.customer}}</p>
-    <p class="card-text">{{dsak.product}}</p>
-    <a href="#" class="btn btn-primary">Åpne i d:sak</a>
-  </div>
-    </div>-->
-    <div id="accordion">
-      <div class="card">
-        <div class="card-header" id="headingOne">
-          <h5 class="mb-0">
-            <button class="btn btn-link" data-toggle="collapse" :data-target="'#index' + dsak.id"  >{{dsak.title}}</button>
-          </h5>
-        </div>
-
-        <div :id="'index' + dsak.id" class="collapse " data-parent="#accordion">
-          <div class="card-body">
-            <p>Prioritet: {{dsak.priority}}</p>
-            <p>Status: {{dsak.status}}</p>
-            <p>Kategori: {{dsak.category}}</p>
-            <p>Customer: {{dsak.customer}}</p>
-            <p>Produkt: {{dsak.product}}</p>
-            <p>Versjon: {{dsak.version}}</p>
-            <p>Produkt: {{dsak.product}}</p>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+  <tbody>
+    <tr :class="{ 'table-danger': istypeC, 'table-warning': istypeD }">
+      <td class="xyz">
+        <font-awesome-icon icon="link" size="1x"></font-awesome-icon>
+      </td>
+      <td>{{dsak.title}}</td>
+      <td>{{shortenedPriority}}</td>
+      <td>{{dsak.status}}</td>
+      <td>{{dsak.customer}}</td>
+      <td>{{shortenedProduct}}</td>
+      <td>{{dsak.version}}</td>
+    </tr>
+  </tbody>
 </template>
 
 <script>
@@ -49,16 +22,47 @@ export default {
   },
   computed: {
     istypeA: function() {
-      return this.dsak.priority.includes('Feil-A')
+      return this.dsak.priority.includes("Feil-A");
     },
     istypeB: function() {
-      return this.dsak.priority.includes('Feil-B')
+      return this.dsak.priority.includes("Feil-B");
     },
     istypeC: function() {
-      return this.dsak.priority.includes('Feil-C')
+      return this.dsak.priority.includes("Feil-C");
     },
     istypeD: function() {
-      return this.dsak.priority.includes('Feil-D')
+      return this.dsak.priority.includes("Feil-D");
+    },
+    shortenedPriority: function() {
+      if (this.dsak.priority.includes("Feil-A")) {
+        return "A-feil";
+      } else if (this.dsak.priority.includes("Feil-B")) {
+        return "B-feil";
+      } else if (this.dsak.priority.includes("Feil-C")) {
+        return "C-feil";
+      } else if (this.dsak.priority.includes("Feil-D")) {
+        return "D-feil";
+      } else if (this.dsak.priority.includes("Ønske")) {
+        return "Ønske";
+      } else if (this.dsak.priority.includes("Brukerstøtte")) {
+        return "Brukerstøtte";
+      } else {
+        return this.dsak.priority;
+      }
+    },
+    shortenedProduct: function() {
+      if (this.dsak.product.includes("Arena")) {
+        return "Arena";
+      }
+      else if (this.dsak.product.includes("EPJ/PAS")) {
+        return "Classic";
+      }
+      else if (this.dsak.product.includes("ContextSync")) {
+        return "ContextSync";
+      }
+      else {
+        return this.dsak.product;
+      }
     }
   }
 };
@@ -71,6 +75,6 @@ export default {
 }
 
 .xyz {
-  min-height: 260px;
+  text-align: center;
 }
 </style>
