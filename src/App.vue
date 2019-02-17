@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <div id="app" class="container-fluid">
+    <v-container fluid id="app" class="ma-0 pa-0">
       <Header/>
       <dsak-list/>
-    </div>
+    </v-container>
   </v-app>
 </template>
 
@@ -27,5 +27,6 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  margin-top: 0px;
 }
 </style>
