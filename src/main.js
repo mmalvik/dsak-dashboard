@@ -1,6 +1,10 @@
+import 'material-design-icons-iconfont/dist/material-design-icons.css' // Ensure you are using css-loader
+
 import Vue from 'vue'
 import App from './App.vue'
+import Vuetify from 'vuetify'
 
+import 'vuetify/dist/vuetify.min.css'
 import 'bootstrap'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'lodash'
@@ -10,6 +14,7 @@ import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
 library.add(faLink)
 
+Vue.use(Vuetify)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 Vue.config.productionTip = false

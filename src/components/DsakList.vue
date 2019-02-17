@@ -1,26 +1,10 @@
 <template>
   <div>
-    <div>
-      <table class="table table-bordered table-hover">
-        <thead>
-          <tr>
-            <th scope="col"></th>
-            <th scope="col">Tittel</th>
-            <th scope="col">Prioritet</th>
-            <th scope="col">Status</th>
-            <th scope="col">Kunde</th>
-            <th scope="col">Produkt</th>
-            <th scope="col">Versjon</th>
-          </tr>
-        </thead>
-        <dsak v-for="sak in saker" :key="sak.id" :dsak="sak"></dsak>
-      </table>
-    </div>
-    <!-- <div v-for="grouped in groupedDsaker" class="row">
-      <div v-for="sak in grouped" :key="sak.id" class="col-lg-4">
-        <dsak :dsak="sak"/>
-      </div>
-    </div>-->
+    <v-data-table :headers="headers" :items="saker" hide-actions class="elevation-1">
+      <template slot="items" slot-scope="props">
+          <dsak :dsak="props.item"></dsak>
+      </template>
+    </v-data-table>
   </div>
 </template>
 
@@ -32,16 +16,18 @@ export default {
   components: {
     Dsak
   },
-  computed: {
-    groupedDsaker() {
-      return _.chunk(this.saker, 3);
-      // returns a nested array:
-      // [[article, article, article], [article, article, article], ...]
-    }
-  },
   data: function() {
     return {
       header: "DSaker",
+      headers: [
+        { text: "", value: "" },
+        { text: "Tittel", value: "title" },
+        { text: "Prioritet", value: "priority" },
+        { text: "Status", value: "status" },
+        { text: "Kunde", value: "customer" },
+        { text: "Produkt", value: "product" },
+        { text: "Versjon", value: "version" }
+      ],
       saker: [
         {
           id: 89512,

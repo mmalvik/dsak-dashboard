@@ -1,17 +1,15 @@
 <template>
-  <tbody>
-    <tr :class="{ 'table-danger': istypeC, 'table-warning': istypeD }">
-      <td class="xyz">
-        <font-awesome-icon icon="link" size="1x"></font-awesome-icon>
-      </td>
-      <td>{{dsak.title}}</td>
-      <td>{{shortenedPriority}}</td>
-      <td>{{dsak.status}}</td>
-      <td>{{dsak.customer}}</td>
-      <td>{{shortenedProduct}}</td>
-      <td>{{dsak.version}}</td>
-    </tr>
-  </tbody>
+  <tr :class="{ 'table-danger': istypeC, 'table-warning': istypeD }">
+    <td>
+      <font-awesome-icon icon="link"></font-awesome-icon>
+    </td>
+    <td class="text-xs-left" >{{ dsak.title }}</td>
+    <td class="text-xs-left">{{ shortenedPriority }}</td>
+    <td class="text-xs-left">{{ dsak.status }}</td>
+    <td class="text-xs-left">{{ dsak.customer }}</td>
+    <td class="text-xs-left">{{ shortenedProduct }}</td>
+    <td class="text-xs-left">{{ dsak.version }}</td>
+  </tr>
 </template>
 
 <script>
@@ -53,14 +51,11 @@ export default {
     shortenedProduct: function() {
       if (this.dsak.product.includes("Arena")) {
         return "Arena";
-      }
-      else if (this.dsak.product.includes("EPJ/PAS")) {
+      } else if (this.dsak.product.includes("EPJ/PAS")) {
         return "Classic";
-      }
-      else if (this.dsak.product.includes("ContextSync")) {
+      } else if (this.dsak.product.includes("ContextSync")) {
         return "ContextSync";
-      }
-      else {
+      } else {
         return this.dsak.product;
       }
     }
@@ -70,11 +65,5 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-.red {
-  background-color: lightcoral;
-}
 
-.xyz {
-  text-align: center;
-}
 </style>
