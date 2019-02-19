@@ -1,9 +1,9 @@
 <template>
   <v-app>
-    <v-container fluid id="app" class="ma-0 pa-0">
-      <Header/>
+    <Header/>
+    <v-content mx-3>
       <dsak-list/>
-    </v-container>
+    </v-content>
   </v-app>
 </template>
 

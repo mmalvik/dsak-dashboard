@@ -20,7 +20,6 @@ Vue.use(Vuetify)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 
-export const EventBus = new Vue()
 export const httpClient = axios.create({
   baseURL: 'http://dashboard:1337/api/v1/dsak'
 })

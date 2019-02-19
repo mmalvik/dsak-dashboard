@@ -1,5 +1,5 @@
 <template>
-  <tr :class="{ 'table-danger': istypeC, 'table-warning': istypeD }">
+  <tr :class="{ 'red lighten-3': istypeA, 'amber lighten-3': istypeB }">
     <td>
       <font-awesome-icon icon="link"></font-awesome-icon>
     </td>

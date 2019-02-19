@@ -1,33 +1,54 @@
 <template>
-  <div>
-    <v-flex xs12 sm6>
-      <v-text-field
-        width="200"
-        v-model="search"
-        append-icon="search"
-        label="Search"
-        single-line
-        hide-details
-      ></v-text-field>
-    </v-flex>
+  <v-container fluid>
+    <v-layout row wrap mx-1 justify-space-between>
+      <v-flex xs12 sm4 mr-5>
+        <v-select
+          :items="teams"
+          v-model="selectedTeam"
+          @change="onTeamChanged"
+          item-text="name"
+          label="Velg team"
+          error="selectTeamError"
+          error-messages="selectTeamErrorMessages"
+        ></v-select>
+        <v-card v-if="error" red class="pa-1">
+          <v-card-title>
+            Feil
+          </v-card-title>
+          <v-card-text class="text-left">
+            Kunne ikke laste data fra server
+          </v-card-text>
+        </v-card>
+      </v-flex>
+      <v-flex xs12 sm4>
+        <v-text-field
+          v-model="search"
+          append-icon="search"
+          label="Filtrer i saker"
+          single-line
+          hide-details
+        ></v-text-field>
+      </v-flex>
 
-    <v-data-table
-      :headers="headers"
-      :items="saker"
-      :search="search"
-      hide-actions
-      class="elevation-1"
-    >
-      <template slot="items" slot-scope="props">
-        <dsak :dsak="props.item"></dsak>
-      </template>
-    </v-data-table>
-  </div>
+      <v-flex mt-2>
+        <v-data-table
+          :headers="headers"
+          :items="saker"
+          :search="search"
+          hide-actions
+          class="elevation-1"
+        >
+          <template slot="items" slot-scope="props">
+            <dsak :dsak="props.item"></dsak>
+          </template>
+        </v-data-table>
+      </v-flex>
+    </v-layout>
+  </v-container>
 </template>
 
 <script>
 import Dsak from "./Dsak.vue";
-import { EventBus } from "../main.js";
 import { httpClient } from "../main.js";
 
 export default {
@@ -38,6 +59,7 @@ export default {
   data: function() {
     return {
       search: "",
+      selectedTeam: null,
       headers: [
         { text: "", value: "" },
         { text: "Tittel", value: "title" },
@@ -47,14 +69,34 @@ export default {
         { text: "Produkt", value: "product" },
         { text: "Versjon", value: "version" }
       ],
+      teams: [],
       saker: [],
+      selectTeamError: false,
+      selectTeamErrorMessages: ""
+
     };
   },
   methods: {
+    getTeams: function() {
+      let vueInstance = this;
+      httpClient
+        .get("/teams")
+        .then(function(response) {
+          let x = this;
+          vueInstance.teams = response.data;
+          console.log(response);
+        })
+        .catch(function(error) {
+          // handle error
+          selectTeamError = true;
+          selectTeamErrorMessages = 'Kunne ikke laste team';
+          console.log(error);
+        });
+    },
     getDsaker: function() {
       let vueInstance = this;
       httpClient
-        .get("/teams/Team%20Musk")
+        .get("/teams/" + vueInstance.selectedTeam)
         .then(function(response) {
           vueInstance.saker = response.data;
           console.log(response);
@@ -65,19 +107,16 @@ export default {
         });
     },
     onTeamChanged: function() {
+      // error = true;
       this.getDsaker();
     }
   },
   beforeMount: function() {
     let vueInstance = this;
-    EventBus.$on("teamChanged", function(payLoad) {
-      vueInstance.onTeamChanged();
-    });
-  },
-  mounted: function() {
-    let vueInstance = this;
-    // vueInstance.getDsaker();
+    vueInstance.selectTeamError = false;
+    vueInstance.selectTeamErrorMessages = []
     vueInstance.getTeams();
+    console.log('beforeMount');
   }
 };
 </script>
