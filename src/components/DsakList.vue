@@ -4,12 +4,11 @@
       <v-flex xs12 sm4 mr-5>
         <v-select
           :items="teams"
+          :error-messages="selectTeamErrorMessages"
           v-model="selectedTeam"
           @change="onTeamChanged"
           item-text="name"
           label="Velg team"
-          error="selectTeamError"
-          error-messages="selectTeamErrorMessages"
         ></v-select>
         <v-card v-if="error" red class="pa-1">
           <v-card-title>
@@ -71,8 +70,7 @@ export default {
       ],
       teams: [],
       saker: [],
-      selectTeamError: false,
-      selectTeamErrorMessages: ""
+      selectTeamErrorMessages: []
 
     };
   },
@@ -87,9 +85,7 @@ export default {
           console.log(response);
         })
         .catch(function(error) {
-          // handle error
-          selectTeamError = true;
-          selectTeamErrorMessages = 'Kunne ikke laste team';
+          vueInstance.selectTeamErrorMessages.push('Kunne ikke laste team');
           console.log(error);
         });
     },
@@ -107,13 +103,11 @@ export default {
         });
     },
     onTeamChanged: function() {
-      // error = true;
       this.getDsaker();
     }
   },
   beforeMount: function() {
     let vueInstance = this;
-    vueInstance.selectTeamError = false;
     vueInstance.selectTeamErrorMessages = []
     vueInstance.getTeams();
     console.log('beforeMount');
