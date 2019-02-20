@@ -29,7 +29,7 @@
         ></v-text-field>
       </v-flex>
 
-      <v-flex mt-2>
+      <v-flex xs12 mt-2>
         <v-data-table
           :headers="headers"
           :items="saker"
