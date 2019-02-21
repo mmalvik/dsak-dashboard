@@ -9,6 +9,7 @@
     <td class="text-xs-left">{{ dsak.customer }}</td>
     <td class="text-xs-left">{{ shortenedProduct }}</td>
     <td class="text-xs-left">{{ dsak.version }}</td>
+    <td class="text-xs-left">{{ date }}</td>
   </tr>
 </template>
 
@@ -19,17 +20,16 @@ export default {
     dsak: Object
   },
   computed: {
+    date: function() {
+      const dateOptions = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+      let date = new Date(this.dsak.lastChanged);
+      return date.toLocaleDateString('no-NB', dateOptions);
+    },
     istypeA: function() {
       return this.dsak.priority.includes("Feil-A");
     },
     istypeB: function() {
       return this.dsak.priority.includes("Feil-B");
-    },
-    istypeC: function() {
-      return this.dsak.priority.includes("Feil-C");
-    },
-    istypeD: function() {
-      return this.dsak.priority.includes("Feil-D");
     },
     shortenedPriority: function() {
       if (this.dsak.priority.includes("Feil-A")) {
@@ -40,8 +40,12 @@ export default {
         return "C-feil";
       } else if (this.dsak.priority.includes("Feil-D")) {
         return "D-feil";
-      } else if (this.dsak.priority.includes("Ønske")) {
-        return "Ønske";
+      } else if (this.dsak.priority.includes("Ønske 1")) {
+        return "Ønske 1 - Ønskelig";
+      } else if (this.dsak.priority.includes("Ønske 2")) {
+        return "Ønske 2 - Sterkt ønskelig";
+      } else if (this.dsak.priority.includes("Ønske 3")) {
+        return "Ønske 3 - Meget viktig";
       } else if (this.dsak.priority.includes("Brukerstøtte")) {
         return "Brukerstøtte";
       } else {

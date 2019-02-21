@@ -52,18 +52,18 @@ export default {
       search: "",
       selectedTeam: null,
       headers: [
-        { text: "", value: "" },
-        { text: "Tittel", value: "title" },
-        { text: "Prioritet", value: "priority" },
-        { text: "Status", value: "status" },
-        { text: "Kunde", value: "customer" },
-        { text: "Produkt", value: "product" },
-        { text: "Versjon", value: "version" }
+        { text: "" },
+        { text: "Tittel", value: "title", sortable: true },
+        { text: "Prioritet", value: "priority", sortable: false },
+        { text: "Status", value: "status", sortable: false },
+        { text: "Kunde", value: "customer", sortable: false },
+        { text: "Produkt", value: "product", sortable: false },
+        { text: "Versjon", value: "version", sortable: false },
+        { text: "Sist endret", value: "lastChanged", sortable: false }
       ],
       teams: [],
       saker: [],
       selectTeamErrorMessages: []
-
     };
   },
   methods: {
@@ -77,7 +77,7 @@ export default {
           console.log(response);
         })
         .catch(function(error) {
-          vueInstance.selectTeamErrorMessages.push('Kunne ikke laste team');
+          vueInstance.selectTeamErrorMessages.push("Kunne ikke laste team");
           console.log(error);
         });
     },
@@ -100,9 +100,9 @@ export default {
   },
   beforeMount: function() {
     let vueInstance = this;
-    vueInstance.selectTeamErrorMessages = []
+    vueInstance.selectTeamErrorMessages = [];
     vueInstance.getTeams();
-    console.log('beforeMount');
+    console.log("beforeMount");
   }
 };
 </script>
