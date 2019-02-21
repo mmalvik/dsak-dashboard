@@ -10,14 +10,6 @@
           item-text="name"
           label="Velg team"
         ></v-select>
-        <v-card v-if="error" red class="pa-1">
-          <v-card-title>
-            Feil
-          </v-card-title>
-          <v-card-text class="text-left">
-            Kunne ikke laste data fra server
-          </v-card-text>
-        </v-card>
       </v-flex>
       <v-flex xs12 sm4>
         <v-text-field
