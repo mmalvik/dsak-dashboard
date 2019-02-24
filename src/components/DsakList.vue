@@ -28,7 +28,7 @@
           <v-card-title class="pa-1 ma-1">
             <span class="font-weight-light">A-feil</span>
           </v-card-title>
-          <v-card-text class="display-1 font-weight-bold pt-0"> {{ aFeilCount }}</v-card-text>
+          <v-card-text class="display-1 font-weight-bold pt-0">{{ aFeilCount }}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs3 sm2 md1>
@@ -36,7 +36,7 @@
           <v-card-title class="pa-1 ma-1">
             <span class="font-weight-light">B-feil</span>
           </v-card-title>
-          <v-card-text class="display-1 font-weight-bold pt-0"> {{ bFeilCount }}</v-card-text>
+          <v-card-text class="display-1 font-weight-bold pt-0">{{ bFeilCount }}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs3 sm2 md1>
@@ -44,7 +44,7 @@
           <v-card-title class="pa-1 ma-1">
             <span class="font-weight-light">C-feil</span>
           </v-card-title>
-          <v-card-text class="display-1 font-weight-bold pt-0"> {{ cFeilCount }}</v-card-text>
+          <v-card-text class="display-1 font-weight-bold pt-0">{{ cFeilCount }}</v-card-text>
         </v-card>
       </v-flex>
       <v-flex xs3 sm2 md1>
@@ -52,7 +52,7 @@
           <v-card-title class="pa-1 ma-1">
             <span class="font-weight-light">D-feil</span>
           </v-card-title>
-          <v-card-text class="display-1 font-weight-bold pt-0"> {{ dFeilCount }}</v-card-text>
+          <v-card-text class="display-1 font-weight-bold pt-0">{{ dFeilCount }}</v-card-text>
         </v-card>
       </v-flex>
     </v-layout>
@@ -68,6 +68,13 @@
         >
           <template slot="items" slot-scope="props">
             <dsak :dsak="props.item"></dsak>
+          </template>
+          <template slot="no-data">
+            <v-alert :value="dSakError" color="error">Kunne ikke hente d-saker :(</v-alert>
+            <v-alert
+              :value="!dSakError && saker.length === 0 && selectedTeam !== null"
+              color="info"
+            >Det valgte teamet har ingen d-saker</v-alert>
           </template>
         </v-data-table>
       </v-flex>
@@ -100,7 +107,8 @@ export default {
       ],
       teams: [],
       saker: [],
-      selectTeamErrorMessages: []
+      selectTeamErrorMessages: [],
+      dSakError: false
     };
   },
   computed: {
@@ -120,10 +128,9 @@ export default {
       ).length;
     },
     dFeilCount: function() {
-      return this.saker.filter(
-        sak => sak.priority === "Feil-D - Småfeil"
-      ).length;
-    },
+      return this.saker.filter(sak => sak.priority === "Feil-D - Småfeil")
+        .length;
+    }
   },
   methods: {
     getTeams: function() {
@@ -133,7 +140,6 @@ export default {
         .then(function(response) {
           let x = this;
           vueInstance.teams = response.data;
-          console.log(response);
         })
         .catch(function(error) {
           vueInstance.selectTeamErrorMessages.push("Kunne ikke laste team");
@@ -146,10 +152,10 @@ export default {
         .get("/teams/" + vueInstance.selectedTeam)
         .then(function(response) {
           vueInstance.saker = response.data;
-          console.log(response);
         })
         .catch(function(error) {
-          // handle error
+          vueInstance.saker = [];
+          vueInstance.dSakError = true;
           console.log(error);
         });
     },
@@ -160,6 +166,7 @@ export default {
   beforeMount: function() {
     let vueInstance = this;
     vueInstance.selectTeamErrorMessages = [];
+    vueInstance.dSakError = false;
     vueInstance.getTeams();
     console.log("beforeMount");
   }
