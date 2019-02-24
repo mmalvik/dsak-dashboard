@@ -1,8 +1,6 @@
 <template>
-  <tr :class="{ 'red lighten-3': istypeA, 'amber lighten-3': istypeB }">
-    <td>
-      <font-awesome-icon icon="link"></font-awesome-icon>
-    </td>
+  <tr :class="{ 'red lighten-4': istypeA, 'amber lighten-4': istypeB }">
+    <td class="text-xs-left" >{{ dsak.id }}</td>
     <td class="text-xs-left" >{{ dsak.title }}</td>
     <td class="text-xs-left">{{ shortenedPriority }}</td>
     <td class="text-xs-left">{{ dsak.status }}</td>
