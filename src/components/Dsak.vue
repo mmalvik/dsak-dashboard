@@ -1,7 +1,12 @@
 <template>
   <tr :class="{ 'red lighten-4': istypeA, 'amber lighten-4': istypeB }">
-    <td class="text-xs-left" >{{ dsak.id }}</td>
-    <td class="text-xs-left" >{{ dsak.title }}</td>
+    <td class="text-xs-left">
+      <a
+        :href="`https://support.dips.no/bin/ticket.fcgi?ticketId=${dsak.id}`"
+        target="_blank"
+      >{{dsak.id}}</a>
+    </td>
+    <td class="text-xs-left">{{ dsak.title }}</td>
     <td class="text-xs-left">{{ shortenedPriority }}</td>
     <td class="text-xs-left">{{ dsak.status }}</td>
     <td class="text-xs-left">{{ dsak.customer }}</td>
@@ -19,9 +24,15 @@ export default {
   },
   computed: {
     date: function() {
-      const dateOptions = { year: '2-digit', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' };
+      const dateOptions = {
+        year: "2-digit",
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      };
       let date = new Date(this.dsak.lastChanged);
-      return date.toLocaleDateString('no-NB', dateOptions);
+      return date.toLocaleDateString("no-NB", dateOptions);
     },
     istypeA: function() {
       return this.dsak.priority.includes("Feil-A");
@@ -67,5 +78,4 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
 </style>
