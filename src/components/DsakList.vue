@@ -114,7 +114,7 @@ export default {
   computed: {
     aFeilCount: function() {
       return this.saker.filter(
-        sak => sak.priority === "Feil-A - Alvorlige feil"
+        sak => sak.priority === "Feil-A - Svært alvorlige feil"
       ).length;
     },
     bFeilCount: function() {
