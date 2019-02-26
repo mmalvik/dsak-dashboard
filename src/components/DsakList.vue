@@ -148,6 +148,7 @@ export default {
     },
     getDsaker: function() {
       let vueInstance = this;
+      vueInstance.saker = [];
       httpClient
         .get("/teams/" + vueInstance.selectedTeam)
         .then(function(response) {
