@@ -1,0 +1,5 @@
+### All teams
+http://dashboard:1337/api/v1/dsak/teams
+
+### Specific team
+http://dashboard:1337/api/v1/dsak/teams/Team%20Musk
