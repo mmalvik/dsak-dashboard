@@ -103,7 +103,7 @@ export default {
         { text: "Kunde", value: "customer", sortable: false },
         { text: "Produkt", value: "product", sortable: false },
         { text: "Versjon", value: "version", sortable: false },
-        { text: "Sist endret", value: "lastChanged", sortable: false }
+        { text: "Sist endret", value: "lastChanged", sortable: true }
       ],
       teams: [],
       saker: [],
