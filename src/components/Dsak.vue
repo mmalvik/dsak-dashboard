@@ -25,7 +25,7 @@ export default {
   computed: {
     date: function() {
       const dateOptions = {
-        year: "2-digit",
+        year: "numeric",
         month: "2-digit",
         day: "2-digit",
         hour: "2-digit",
@@ -62,7 +62,9 @@ export default {
       }
     },
     shortenedProduct: function() {
-      if (this.dsak.product.includes("Arena")) {
+      if (!this.dsak.product) {
+        return "";
+      } else if (this.dsak.product.includes("Arena")) {
         return "Arena";
       } else if (this.dsak.product.includes("EPJ/PAS")) {
         return "Classic";
