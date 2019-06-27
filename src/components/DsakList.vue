@@ -70,10 +70,17 @@
             <dsak :dsak="props.item"></dsak>
           </template>
           <template slot="no-data">
-            <v-alert :value="dSakError" color="error">Kunne ikke hente d-saker :(</v-alert>
             <v-alert
-              :value="!dSakError && saker.length === 0 && selectedTeam !== null"
+              :value="dSakError && !isLoading"
+              color="error"
+              icon="warning"
+              outline
+            >Kunne ikke hente d-saker :-(</v-alert>
+            <v-alert
+              :value="!dSakError && saker.length === 0 && selectedTeam !== null && !isLoading"
               color="info"
+              icon="info"
+              outline
             >Det valgte teamet har ingen d-saker</v-alert>
           </template>
         </v-data-table>
@@ -85,6 +92,7 @@
 <script>
 import Dsak from "./Dsak.vue";
 import { httpClient } from "../main.js";
+import { async } from "q";
 
 export default {
   name: "DsakList",
@@ -95,6 +103,11 @@ export default {
     return {
       search: "",
       selectedTeam: null,
+      teams: [],
+      saker: [],
+      selectTeamErrorMessages: [],
+      dSakError: false,
+      isLoading: false,
       headers: [
         { text: "Id", value: "id", sortable: true },
         { text: "Tittel", value: "title", sortable: true },
@@ -104,11 +117,7 @@ export default {
         { text: "Produkt", value: "product", sortable: false },
         { text: "Versjon", value: "version", sortable: false },
         { text: "Sist endret", value: "lastChanged", sortable: true }
-      ],
-      teams: [],
-      saker: [],
-      selectTeamErrorMessages: [],
-      dSakError: false
+      ]
     };
   },
   computed: {
@@ -135,30 +144,30 @@ export default {
   methods: {
     getTeams: function() {
       let vueInstance = this;
+      vueInstance.isLoading = true;
       httpClient
         .get("/teams")
         .then(function(response) {
-          let x = this;
           vueInstance.teams = response.data;
         })
         .catch(function(error) {
           vueInstance.selectTeamErrorMessages.push("Kunne ikke laste team");
-          console.log(error);
         });
+      vueInstance.isLoading = false;
     },
-    getDsaker: function() {
+    getDsaker: async function() {
       let vueInstance = this;
-      vueInstance.saker = [];
-      httpClient
-        .get("/teams/" + vueInstance.selectedTeam)
-        .then(function(response) {
-          vueInstance.saker = response.data;
-        })
-        .catch(function(error) {
-          vueInstance.saker = [];
-          vueInstance.dSakError = true;
-          console.log(error);
-        });
+      vueInstance.isLoading = true;
+      vueInstance.dSakError = false;
+      try {
+        const response = await httpClient.get("/teams/" + vueInstance.selectedTeam);
+        vueInstance.saker = response.data;
+      } catch (error) {
+        vueInstance.saker = [];
+        vueInstance.dSakError = true;
+      } finally {
+        vueInstance.isLoading = false;
+      }
     },
     onTeamChanged: function() {
       this.getDsaker();
@@ -167,9 +176,7 @@ export default {
   beforeMount: function() {
     let vueInstance = this;
     vueInstance.selectTeamErrorMessages = [];
-    vueInstance.dSakError = false;
     vueInstance.getTeams();
-    console.log("beforeMount");
   }
 };
 </script>
