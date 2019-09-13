@@ -21,7 +21,8 @@ Vue.component('font-awesome-icon', FontAwesomeIcon)
 Vue.config.productionTip = false
 
 export const httpClient = axios.create({
-  baseURL: 'http://dashboard:1337/api/v1/dsak'
+  // baseURL: 'http://dashboard:1337/api/v1/dsak'
+  baseURL: 'https://fake-dsak-api.azurewebsites.net'
 })
 
 new Vue({
